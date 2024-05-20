@@ -1,9 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const csv = require('csv-parser');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; // Uses environment variable PORT
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/data', (req, res) => {
     const results = [];
     fs.createReadStream('netflix_titles.csv')
@@ -14,6 +20,6 @@ app.get('/data', (req, res) => {
         });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
 });
